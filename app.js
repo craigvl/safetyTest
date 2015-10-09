@@ -1,6 +1,5 @@
 var services = require('./services');
 var async = require('async');
-var Q = require('q');
 var _ = require('lodash');
 
 var lights = [
@@ -24,27 +23,21 @@ var lights = [
 var start = new Date();
 
 console.log('Intersection app started at ' + start);
-
 services.displayColors(lights);
 
 setInterval(function () {
-    switchLights(lights).then(function () {
-        services.changeFromYellow(lights, function (err, lights) {
-            services.displayColors(lights);
-        });
-    })
+    async.waterfall([
+    function (callback) {
+            services.changeToYellow(lights, function (err, lights) {
+                services.displayColors(lights);
+                callback(err, lights);
+            });
+    },
+    function (lights, callback) {
+            services.changeFromYellow(lights, function (err, lights) {
+                services.displayColors(lights);
+                callback(err, lights);
+            });
+    }
+], function (err, result) {});
 }, 10000);
-
-function switchLights(lights) {
-
-    services.changeToYellow(lights, function (err, lights) {
-        services.displayColors(lights);
-    });
-
-    var deferred = Q.defer();
-    setTimeout(function () {
-        deferred.resolve();
-    }, 3000);
-
-    return deferred.promise;
-}

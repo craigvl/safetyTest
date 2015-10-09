@@ -1,6 +1,6 @@
 var services = require('./services');
-var _ = require('lodash');
 var expect = require("chai").expect;
+var assert = require("chai").assert;
 
 var lights = [
     {
@@ -21,6 +21,15 @@ var lights = [
     }]
 
 describe("Traffic light app", function () {
+
+    describe("Must provides lights.", function () {
+        it("Check that error is thrown if no lights are provided", function () {
+            services.changeToYellow(null, function (err, lights) {
+                assert.isNotNull(err, 'Should not be null since no lights were passed.');
+            });
+        });
+    });
+
     describe("Set green lights to yellow", function () {
         it("Changes the green lights to yellow and keep red lights red", function () {
             services.changeToYellow(lights, function (err, lights) {
