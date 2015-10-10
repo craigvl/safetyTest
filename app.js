@@ -1,6 +1,4 @@
 var services = require('./services');
-var async = require('async');
-var _ = require('lodash');
 
 var lights = [
     {
@@ -22,22 +20,34 @@ var lights = [
 
 var start = new Date();
 
-console.log('Intersection app started at ' + start);
-services.displayColors(lights);
+console.log('Intersection simulation started at ' + start);
+services.outputColorsToConsole(lights);
+main();
 
-setInterval(function () {
-    async.waterfall([
-    function (callback) {
-            services.changeToYellow(lights, function (err, lights) {
-                services.displayColors(lights);
-                callback(err, lights);
-            });
-    },
-    function (lights, callback) {
-            services.changeFromYellow(lights, function (err, lights) {
-                services.displayColors(lights);
-                callback(err, lights);
-            });
-    }
-], function (err, result) {});
-}, 10000);
+
+function main() {
+
+    //at 4mins 30secs - green lights turn yellow, red lights remain red.
+
+    setTimeout(function () {
+
+        services.greenToYellowRedRemainsRed(lights, function (err, lights) {
+            services.outputColorsToConsole(lights);
+        });
+
+    }, 270000);
+
+
+    //at 5mins - yellow lights turn red, red lights turn green.
+
+    setTimeout(function () {
+
+        services.yellowtoRedRedToGreen(lights, function (err, lights) {
+            services.outputColorsToConsole(lights);
+        });
+
+    }, 300000);
+
+    setTimeout(main, 300000);
+
+}

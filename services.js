@@ -1,7 +1,10 @@
 var async = require('async');
+var moment = require('moment');
 
 module.exports = {
-    changeToYellow: function (lights, cb) {
+
+
+    greenToYellowRedRemainsRed: function (lights, cb) {
         if (lights) {
             async.each(lights, function (light, callbackdone) {
                 if (light.color === 'green') {
@@ -14,12 +17,13 @@ module.exports = {
             }, function (err) {
                 cb(null, lights)
             });
-
         } else {
             cb(new Error('Please provide some lights!'))
         }
     },
-    changeFromYellow: function (lights, cb) {
+
+
+    yellowtoRedRedToGreen: function (lights, cb) {
         if (lights) {
             async.each(lights, function (light, callbackdone) {
                 if (light.color === 'yellow') {
@@ -30,20 +34,21 @@ module.exports = {
                     callbackdone();
                 }
             }, function (err) {
-                setTimeout(function () {
-                    cb(null, lights)
-                }, 3000);
+                cb(null, lights);
             });
         } else {
             cb(new Error('Please provide some lights!'))
         }
     },
-    displayColors: function (lights) {
+
+
+    outputColorsToConsole: function (lights) {
         if (lights) {
             var now = new Date();
+            var m = moment();
             console.log('--------------------------------------------------------');
             async.each(lights, function (light, callback) {
-                console.log('At ' + now + ' ' + light.name + ' is ' + light.color);
+                console.log(m.format("h:mm:ss a") + ' ' + light.name + ' is ' + light.color);
             });
         } else {
             console.log('No lights?');

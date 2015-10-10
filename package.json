@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-     "test": "./node_modules/.bin/mocha --reporter spec"
+    "test": "./node_modules/.bin/mocha --reporter spec"
   },
   "author": "Craig Waite",
   "license": "ISC",
@@ -13,6 +13,8 @@
     "chai": "^3.3.0",
     "lodash": "^3.10.1",
     "mocha": "^2.3.3",
-    "q": "^1.4.1"
+    "moment": "^2.10.6",
+    "q": "^1.4.1",
+    "sinon": "^1.17.1"
   }
 }
